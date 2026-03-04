@@ -1,0 +1,288 @@
+{
+  "id": "coral-gardeners",
+  "name": "Coral Gardeners",
+  "partnerId": "80ae2308-6acf-49bc-97e1-3b66f5afe322",
+  "trustedUserNumbers": [22222],
+  "topSupporterThreshold": {
+    "individual": 500,
+    "organization": 5000
+  },
+  "branding": {
+    "primaryColor": "#000000",
+    "supportingColor": "#E3EEF2",
+    "supportingLightColor": "#F1F7F9",
+    "supportingLightSectionColor": "#F1F7F9",
+    "conversionColor": "#59D3FF",
+    "conversionColorLight": "#9FE5FE"
+  },
+  "config": {
+    "i18n": {
+      "locales": ["en"],
+      "defaultLocale": "en"
+    },
+    "features": {
+      "authentication": true
+    },
+    "api": {
+      "baseUrl": "/api/mock"
+    },
+    "mainSiteUrl": "https://sumthing.org"
+  },
+  "contact": {
+    "email": "hello@coralgardeners.org",
+    "website": "https://coralgardeners.org",
+    "social": {
+      "instagram": "coralgardeners",
+      "linkedin": "coral-gardeners"
+    }
+  },
+  "content": {
+    "logos": {
+      "primary": {
+        "light": "/coralgardeners-logo.svg",
+        "dark": "/coralgardeners-logo-white.svg"
+      },
+      "icon": "/favicon.ico",
+      "dimensions": {
+        "mobile": {
+          "height": 42,
+          "maxWidth": 168
+        },
+        "desktop": {
+          "height": 80,
+          "maxWidth": 280
+        }
+      }
+    },
+    "landing": {
+      "hero": {
+        "backgroundImage": "/coralgardeners-hero.jpg",
+        "title": "Restoring reefs, protecting oceans",
+        "subtitle": "Join our mission to regenerate coral ecosystems"
+      },
+      "join": {
+        "heading": "Join {count} supporters restoring coral reefs",
+        "benefits": [
+          "Track reef recovery",
+          "Receive field updates",
+          "See proof of impact"
+        ],
+        "ctaPrefix": "Start restoring reefs, from"
+      },
+      "projects": {
+        "heading": "Our {count} reef restoration projects",
+        "description": "Protecting marine biodiversity with community-led restoration"
+      },
+      "supportCovers": {
+        "heading": "Your support covers",
+        "description": "Coral nurseries • Reef monitoring • Community training"
+      },
+      "supporters": {
+        "heading": "{count}+ individual supporters",
+        "description": "Help us regenerate coral reefs and protect marine life"
+      },
+      "updates": {
+        "heading": "Reef Updates",
+        "description": "Follow our latest restoration progress"
+      },
+      "bottom": {
+        "markdown": "## Help us regenerate coral reefs\n\nEvery restored coral helps rebuild marine ecosystems."
+      }
+    },
+    "personal": {
+      "hero": {
+        "backgroundImage": "/coralgardeners-hero.jpg"
+      },
+      "proofOfImpact": {
+        "backgroundImage": "/workers.png"
+      },
+      "bottom": {
+        "image": "/partner-image.png",
+        "ctaText": "Expand Your Impact"
+      }
+    },
+    "footer": {
+      "contactSupportLink": "mailto:hello@coralgardeners.org"
+    },
+    "info": {
+      "markdown": "# About Coral Gardeners\n\nWe restore coral reefs with local communities...\n\n# Our Impact\n\nCorals planted, reefs restored, ecosystems protected."
+    },
+    "pages": {
+      "home": {
+        "hero": {
+          "backgroundImage": "/coralgardeners-hero.jpg",
+          "title": "Rebuilding coral reefs for future generations"
+        },
+        "socialProof": {
+          "titleTemplate": "Join {count}+ supporters to restore ecosystems, protect wildlife and combat climate change.",
+          "steps": [
+            "Select your preferred project",
+            "Track your contribution in real-time",
+            "Share your impact story"
+          ],
+          "ctaMainText": "Start restoring nature"
+        },
+        "trustedByLabel": "Trusted by:",
+        "projects": {
+          "heading": "Our reef restoration projects across the globe",
+          "description": "We cultivate and transplant coral to rebuild reefs and protect biodiversity.",
+          "emptyState": "No projects available"
+        },
+        "supportCovers": {
+          "heading": "What your support covers",
+          "description": "Restoring reefs takes patience and care. Your support covers every step of the process.",
+          "items": [
+            {
+              "title": "Step 1: Coral nurseries",
+              "description": "Grow healthy coral fragments in protected nurseries",
+              "image": "/stories/story-3.jpg"
+            },
+            {
+              "title": "Step 2: Reef monitoring",
+              "description": "Track reef health and water conditions",
+              "image": "/stories/story-4.jpg"
+            },
+            {
+              "title": "Step 3: Transplanting",
+              "description": "Plant coral fragments to rebuild reef structures",
+              "image": "/stories/story-5.jpg"
+            }
+          ]
+        },
+        "supporters": {
+          "headingTemplate": "{count}+ individual supporters",
+          "description": "Every day people join the community of {partnerName}. Together we've restored 1200m² of reef:",
+          "topTitle": "Top supporters",
+          "recentTitle": "Recent supporters",
+          "topEmptyState": "No supporters yet",
+          "recentEmptyState": "No recent supporters",
+          "topSubtitle": "Top supporter",
+          "time": {
+            "justNow": "Just now",
+            "hoursAgo": "{count} hrs ago",
+            "daysAgo": "{count} days ago"
+          }
+        },
+        "wildlife": {
+          "heading": "Wildlife returning to our reefs",
+          "description": "See the biodiversity returning to restored reefs, documented by our field team.",
+          "emptyState": "No stories available"
+        },
+        "impactSection": {
+          "heading": "Coral reefs are disappearing rapidly, but together we can bring them back.",
+          "image": {
+            "src": "/coralgardeners-hero.jpg",
+            "alt": "Coral restoration"
+          },
+          "description": "By restoring coral reefs you're rebuilding ecosystems that:",
+          "benefits": [
+            "Support marine biodiversity and fish habitats",
+            "Protect coastlines from erosion",
+            "Sustain coastal communities"
+          ],
+          "milestonesHeading": "Our biggest milestones",
+          "milestonesDescription": "Here is what our teams have achieved across our reef sites.",
+          "milestones": [
+            "Grown thousands of coral fragments",
+            "Restored reef habitats across key locations",
+            "Engaged local communities in conservation",
+            "Improved reef monitoring and protection"
+          ],
+          "additionalHeading": "Healthy reefs sustain oceans and communities",
+          "additionalDescription": "Coral reefs are critical for ocean biodiversity and coastal protection. Your support helps us restore and protect them for future generations."
+        }
+      },
+      "user": {
+        "hero": {
+          "backgroundImage": "/coralgardeners-hero.jpg",
+          "subtitle": "Impact overview",
+          "titleTemplate": "{name}'s Impact"
+        },
+        "socialProof": {
+          "titleTemplate": "Join {count}+ supporters to restore ecosystems, protect wildlife and combat climate change.",
+          "steps": [
+            "Choose environmental projects",
+            "Make contributions",
+            "Track your impact"
+          ],
+          "ctaMainText": "Start restoring nature"
+        },
+        "tabs": {
+          "fieldUpdates": "Field Updates",
+          "proofOfImpact": "Proof of Impact"
+        },
+        "fieldUpdates": {
+          "headingTemplate": "Updates in the field made possible by {name}",
+          "description": "Here is what our teams are seeing across reef restoration sites.",
+          "emptyState": "No stories available"
+        },
+        "proofOfImpact": {
+          "backgroundImage": "/workers.png",
+          "card": {
+            "updatedAt": "1 month ago",
+            "totalImpact": "120m²",
+            "impactType": "reef area restored",
+            "realizedPercentage": 55,
+            "pendingPercentage": 45,
+            "pendingDescription": "Restoration is ongoing. The next coral planting will take place in March 2025...",
+            "realizedLocations": [
+              {
+                "name": "Moorea Lagoon",
+                "country": "PF",
+                "realized": 25,
+                "total": 100,
+                "imageUrl": "/stories/story-1.jpg"
+              },
+              {
+                "name": "Tahiti Reef",
+                "country": "PF",
+                "realized": 25,
+                "total": 100,
+                "imageUrl": "/stories/story-2.jpg"
+              },
+              {
+                "name": "Bora Bora",
+                "country": "PF",
+                "realized": 25,
+                "total": 100,
+                "imageUrl": "/stories/story-3.jpg"
+              }
+            ]
+          },
+          "track": {
+            "title": "We track all our impact",
+            "description": "Follow reef restoration progress and see your results over time.",
+            "ctaText": "Total impact of {partnerName}"
+          }
+        },
+        "impactSection": {
+          "beforeAfter": {
+            "before": {
+              "image": "/stories/story-4.jpg",
+              "label": "Before"
+            },
+            "after": {
+              "image": "/stories/story-5.jpg",
+              "label": "After"
+            }
+          },
+          "heading": "Help us restore coral reefs for future generations",
+          "supporterTitleTemplate": "Join {count}+ supporters",
+          "steps": [
+            "Choose how much reef to restore",
+            "We do the restoration work and report your results",
+            "Follow along on your personal impact page"
+          ],
+          "ctaPrimaryText": "Start restoring reefs",
+          "ctaSecondaryText": "More about what we do"
+        },
+        "trustedByTitle": "Supported by:"
+      }
+    }
+  },
+  "metadata": {
+    "version": "1.0.0",
+    "lastUpdated": 1770369140000,
+    "createdAt": 1770369140000
+  }
+}

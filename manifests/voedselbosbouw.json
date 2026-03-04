@@ -1,0 +1,320 @@
+{
+  "id": "voedselbosbouw",
+  "name": "Voedselbosbouw",
+  "partnerId": "d60513c2-6cf7-42c1-bbf5-dbfc459764b8",
+  "trustedUserNumbers": [11111],
+  "topSupporterThreshold": {
+    "individual": 500,
+    "organization": 5000
+  },
+  "branding": {
+    "primaryColor": "#435249",
+    "supportingColor": "#D4F0E0",
+    "supportingLightColor": "#F1F8F4",
+    "supportingLightSectionColor": "#F1F8F4",
+    "conversionColor": "#4DD383",
+    "conversionColorLight": "#73DF9F"
+  },
+  "config": {
+    "i18n": {
+      "locales": ["nl", "en"],
+      "defaultLocale": "nl"
+    },
+    "features": {
+      "authentication": false
+    },
+    "api": {
+      "baseUrl": "/api/mock"
+    },
+    "mainSiteUrl": "https://sumthing.org"
+  },
+  "contact": {
+    "email": "info@voedselbosbouw.nl",
+    "website": "https://voedselbosbouw.nl"
+  },
+  "content": {
+    "logos": {
+      "primary": {
+        "light": "/logo-voedselbosbouw-light.png",
+        "dark": "/logo-voedselbosbouw-dark.png"
+      },
+      "dimensions": {
+        "mobile": {
+          "height": 42,
+          "maxWidth": 168
+        },
+        "desktop": {
+          "height": 80,
+          "maxWidth": 200
+        }
+      }
+    },
+    "landing": {
+      "hero": {
+        "backgroundImage": "/stories/story-1.jpg",
+        "title": "Voedselbossen creëren, samen groeien",
+        "subtitle": "Doe mee met onze missie voor duurzame voedselbossen"
+      },
+      "join": {
+        "heading": "Sluit je aan bij {count} supporters van voedselbossen",
+        "benefits": [
+          "Volg jouw impact",
+          "Ontvang veld updates",
+          "Zie je bewijs van impact"
+        ],
+        "ctaPrefix": "Begin met steunen, vanaf"
+      },
+      "projects": {
+        "heading": "Onze {count} voedselbos projecten",
+        "description": "We creëren voedselbossen die gemeenschappen ondersteunen"
+      },
+      "supportCovers": {
+        "heading": "Jouw steun dekt",
+        "description": "Bomen en struiken planten • Voedselproductie • Gemeenschapsonderwijs"
+      },
+      "supporters": {
+        "heading": "{count}+ individuele supporters",
+        "description": "Help ons duurzame voedselbossen te creëren"
+      },
+      "updates": {
+        "heading": "Project Updates",
+        "description": "Volg onze laatste voortgang en veldverslagen"
+      },
+      "bottom": {
+        "markdown": "## Help ons duurzame voedselbossen te creëren\n\nElk voedselbos ondersteunt lokale gemeenschappen en biodiversiteit."
+      }
+    },
+    "personal": {
+      "hero": {
+        "backgroundImage": "/mountains.png"
+      },
+      "proofOfImpact": {
+        "backgroundImage": "/workers.png"
+      },
+      "bottom": {
+        "image": "/partner-image.png",
+        "ctaText": "Vergroot Je Impact"
+      }
+    },
+    "footer": {
+      "contactSupportLink": "mailto:info@voedselbosbouw.nl"
+    },
+    "info": {
+      "markdown": "# Over Voedselbosbouw\n\nWe creëren voedselbossen...\n\n# Onze Impact\n\nVoedselbossen geplant, gemeenschappen versterkt."
+    },
+    "pages": {
+      "home": {
+        "hero": {
+          "backgroundImage": "/stories/story-2.jpg",
+          "title": "Rewilding the UK's landscapes at scale"
+        },
+        "socialProof": {
+          "titleTemplate": "Join {count}+ supporters to restore ecosystems, protect wildlife and combat climate change.",
+          "steps": [
+            "Select your preferred project",
+            "Track your contribution in real-time",
+            "Share your impact story"
+          ],
+          "ctaMainText": "Start restoring nature"
+        },
+        "trustedByLabel": "Trusted by:",
+        "projects": {
+          "heading": "Our 11 large-scale projects across India and Cambodia",
+          "description": "We've planted over 1.5 million predominantly native trees and restored 1500 hectares of meadows, wetland and peatland.",
+          "emptyState": "No projects available"
+        },
+        "supportCovers": {
+          "heading": "What your support covers",
+          "description": "Restoring nature is much more than just planting. Your support covers all the steps from seedlings to watering.",
+          "items": [
+            {
+              "title": "Step 1: Make seedlings",
+              "description": "Start by preparing seedlings in a controlled environment",
+              "image": "/stories/story-3.jpg"
+            },
+            {
+              "title": "Step 2: Prep the soil",
+              "description": "Prepare nutrient-rich soil for optimal growth",
+              "image": "/stories/story-4.jpg"
+            },
+            {
+              "title": "Step 3: Plant & Water",
+              "description": "Transfer seedlings and maintain proper hydration",
+              "image": "/stories/story-5.jpg"
+            },
+            {
+              "title": "Step 4: Mulch & Protect",
+              "description": "Apply organic mulch to retain moisture and prevent weeds",
+              "image": "/stories/story-6.jpg"
+            },
+            {
+              "title": "Step 5: Monitor Growth",
+              "description": "Track plant health and adjust care as needed",
+              "image": "/stories/story-1.jpg"
+            },
+            {
+              "title": "Step 6: Prune & Train",
+              "description": "Shape plants for optimal growth and structure",
+              "image": "/stories/story-2.jpg"
+            },
+            {
+              "title": "Step 7: Support Wildlife",
+              "description": "Create habitats for beneficial insects and animals",
+              "image": "/stories/story-3.jpg"
+            },
+            {
+              "title": "Step 8: Harvest & Document",
+              "description": "Collect seeds and record restoration progress",
+              "image": "/stories/story-4.jpg"
+            },
+            {
+              "title": "Step 9: Expand & Repeat",
+              "description": "Scale the restoration to new areas using proven methods",
+              "image": "/stories/story-5.jpg"
+            }
+          ]
+        },
+        "supporters": {
+          "headingTemplate": "{count}+ individual supporters",
+          "description": "Every day people join the community of {partnerName}. Together we've restored 1200m² of nature:",
+          "topTitle": "Top supporters",
+          "recentTitle": "Recent supporters",
+          "topEmptyState": "No supporters yet",
+          "recentEmptyState": "No recent supporters",
+          "topSubtitle": "Top supporter",
+          "time": {
+            "justNow": "Just now",
+            "hoursAgo": "{count} hrs ago",
+            "daysAgo": "{count} days ago"
+          }
+        },
+        "wildlife": {
+          "heading": "Wildlife returning to our projects",
+          "description": "See the incredible biodiversity returning to our restored habitats as documented by our field team.",
+          "emptyState": "No stories available"
+        },
+        "impactSection": {
+          "heading": "Nature is disappearing at a devastating rate in the UK, but with your help, we can bring life back.",
+          "image": {
+            "src": "/doing-sumthing.png",
+            "alt": "Nature restoration"
+          },
+          "description": "By restoring meadows, wetlands, and forests you're not simply putting plants in the ground, you're rebuilding ecosystems that:",
+          "benefits": [
+            "Lock away carbon for generations to come and help climate change.",
+            "Support wildlife and biodiversity by providing essential habitats",
+            "Support clean water, fertile soils, and resilient landscapes."
+          ],
+          "milestonesHeading": "Our biggest milestones",
+          "milestonesDescription": "Here's what's happening at the 4 locations Justin helped restore, straight from our team on the ground.",
+          "milestones": [
+            "Planted over 1.5 million predominantly native trees",
+            "Restored 1500 hectares of meadows, wetland and peatland",
+            "These 10 species have been positively impacted by the work we've done",
+            "Engaged communities to experience nature up close"
+          ],
+          "additionalHeading": "Wetlands and meadows are absolutely essential",
+          "additionalDescription": "They provide a diverse habitat for animals and rare plants, and they support the pollinators we depend on. They prevent flooding, and strengthen our resilience to drought. They store huge amounts of carbon, and even improve our water quality. You can read a lot more about meadows and peatland on our website."
+        }
+      },
+      "user": {
+        "hero": {
+          "backgroundImage": "/stories/story-6.jpg",
+          "subtitle": "Impact overview",
+          "titleTemplate": "{name}'s Impact"
+        },
+        "socialProof": {
+          "titleTemplate": "Join {count}+ supporters to restore ecosystems, protect wildlife and combat climate change.",
+          "steps": [
+            "Choose environmental projects",
+            "Make contributions",
+            "Track your impact"
+          ],
+          "ctaMainText": "Start restoring nature"
+        },
+        "tabs": {
+          "fieldUpdates": "Field Updates",
+          "proofOfImpact": "Proof of Impact"
+        },
+        "fieldUpdates": {
+          "headingTemplate": "Updates in the field made possible by {name}",
+          "description": "Here's what's happening at the 4 locations Justin helped restore, straight from our team on the ground.",
+          "emptyState": "No stories available"
+        },
+        "proofOfImpact": {
+          "backgroundImage": "/workers.png",
+          "card": {
+            "updatedAt": "1 month ago",
+            "totalImpact": "120m²",
+            "impactType": "meadows and wetland sponsored",
+            "realizedPercentage": 55,
+            "pendingPercentage": 45,
+            "pendingDescription": "It will be planted at the earliest possible window. The next planting will take place in March 2025. There are delays due to rain season...",
+            "realizedLocations": [
+              {
+                "name": "Glenaros Estate",
+                "country": "UK",
+                "realized": 25,
+                "total": 100,
+                "imageUrl": "/stories/story-1.jpg"
+              },
+              {
+                "name": "Brisbane Mains",
+                "country": "UK",
+                "realized": 25,
+                "total": 100,
+                "imageUrl": "/stories/story-2.jpg"
+              },
+              {
+                "name": "Mill of Plunton",
+                "country": "UK",
+                "realized": 25,
+                "total": 100,
+                "imageUrl": "/stories/story-3.jpg"
+              },
+              {
+                "name": "Blubon",
+                "country": "UK",
+                "realized": 25,
+                "total": 100,
+                "imageUrl": "/stories/story-4.jpg"
+              }
+            ]
+          },
+          "track": {
+            "title": "We track all our impact",
+            "description": "See all our impact and stories in the field. See all our impact and stories in the field. See all our impact and stories in the field",
+            "ctaText": "Total impact of {partnerName}"
+          }
+        },
+        "impactSection": {
+          "beforeAfter": {
+            "before": {
+              "image": "/stories/story-5.jpg",
+              "label": "2022"
+            },
+            "after": {
+              "image": "/stories/story-6.jpg",
+              "label": "2025"
+            }
+          },
+          "heading": "Help us revive a million m² of meadows, forest and wetlands by 2030",
+          "supporterTitleTemplate": "Join {count}+ supporters",
+          "steps": [
+            "Choose how much nature to restore",
+            "We do the work and report your results",
+            "Follow along on your personal impact page"
+          ],
+          "ctaPrimaryText": "Start restoring nature",
+          "ctaSecondaryText": "More about what we do"
+        },
+        "trustedByTitle": "Supported by:"
+      }
+    }
+  },
+  "metadata": {
+    "version": "1.0.0",
+    "lastUpdated": 1770369140000,
+    "createdAt": 1770369140000
+  }
+}
