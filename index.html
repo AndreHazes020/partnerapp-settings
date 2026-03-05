@@ -1,0 +1,1364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Project Impact Hub — Manifest Builder</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #f5f5f7;
+      --card: #ffffff;
+      --text: #1d1d1f;
+      --text-secondary: #86868b;
+      --text-tertiary: #afafb2;
+      --border: #d2d2d7;
+      --border-light: #e8e8ed;
+      --accent: #0071e3;
+      --accent-hover: #0077ed;
+      --accent-light: #e8f0fe;
+      --success: #34c759;
+      --radius: 12px;
+      --radius-sm: 8px;
+      --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+      --shadow-lg: 0 4px 20px rgba(0,0,0,0.08);
+      --transition: 0.2s ease;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Header */
+    .header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(255,255,255,0.72);
+      backdrop-filter: saturate(180%) blur(20px);
+      -webkit-backdrop-filter: saturate(180%) blur(20px);
+      border-bottom: 1px solid var(--border-light);
+    }
+
+    .header-inner {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 14px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .header h1 {
+      font-size: 18px;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+    }
+
+    .header-actions {
+      display: flex;
+      gap: 10px;
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 16px;
+      border-radius: 980px;
+      font-size: 13px;
+      font-weight: 500;
+      border: none;
+      cursor: pointer;
+      transition: all var(--transition);
+      text-decoration: none;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    .btn-primary:hover { background: var(--accent-hover); }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--accent);
+      border: 1px solid var(--border);
+    }
+
+    .btn-secondary:hover { background: var(--accent-light); }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--text-secondary);
+    }
+
+    .btn-ghost:hover { color: var(--text); background: rgba(0,0,0,0.04); }
+
+    /* Layout */
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 32px 24px 80px;
+    }
+
+    .intro {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .intro h2 {
+      font-size: 32px;
+      font-weight: 700;
+      letter-spacing: -0.025em;
+      margin-bottom: 8px;
+    }
+
+    .intro p {
+      font-size: 16px;
+      color: var(--text-secondary);
+      max-width: 560px;
+      margin: 0 auto;
+    }
+
+    /* Progress */
+    .progress-bar {
+      display: flex;
+      gap: 4px;
+      margin-bottom: 32px;
+    }
+
+    .progress-step {
+      flex: 1;
+      height: 4px;
+      border-radius: 2px;
+      background: var(--border-light);
+      transition: background var(--transition);
+    }
+
+    .progress-step.active { background: var(--accent); }
+    .progress-step.done { background: var(--success); }
+
+    /* Sidebar nav */
+    .layout {
+      display: grid;
+      grid-template-columns: 220px 1fr;
+      gap: 32px;
+    }
+
+    @media (max-width: 768px) {
+      .layout { grid-template-columns: 1fr; }
+      .sidebar { display: none; }
+    }
+
+    .sidebar {
+      position: sticky;
+      top: 80px;
+      align-self: start;
+    }
+
+    .sidebar nav {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .sidebar a {
+      display: block;
+      padding: 8px 12px;
+      border-radius: var(--radius-sm);
+      font-size: 13px;
+      color: var(--text-secondary);
+      text-decoration: none;
+      transition: all var(--transition);
+    }
+
+    .sidebar a:hover { background: rgba(0,0,0,0.04); color: var(--text); }
+    .sidebar a.active { background: var(--accent-light); color: var(--accent); font-weight: 500; }
+
+    /* Sections */
+    .section {
+      background: var(--card);
+      border-radius: var(--radius);
+      border: 1px solid var(--border-light);
+      box-shadow: var(--shadow);
+      margin-bottom: 20px;
+      overflow: hidden;
+    }
+
+    .section-header {
+      padding: 20px 24px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      user-select: none;
+      transition: background var(--transition);
+    }
+
+    .section-header:hover { background: rgba(0,0,0,0.02); }
+
+    .section-header h3 {
+      font-size: 17px;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+    }
+
+    .section-header .subtitle {
+      font-size: 13px;
+      color: var(--text-secondary);
+      margin-top: 2px;
+    }
+
+    .section-chevron {
+      width: 20px;
+      height: 20px;
+      color: var(--text-tertiary);
+      transition: transform var(--transition);
+      flex-shrink: 0;
+    }
+
+    .section.collapsed .section-chevron { transform: rotate(-90deg); }
+    .section.collapsed .section-body { display: none; }
+
+    .section-body {
+      padding: 0 24px 24px;
+    }
+
+    /* Form elements */
+    .field {
+      margin-bottom: 20px;
+    }
+
+    .field:last-child { margin-bottom: 0; }
+
+    .field label {
+      display: block;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text);
+      margin-bottom: 5px;
+    }
+
+    .field .hint {
+      font-size: 12px;
+      color: var(--text-tertiary);
+      margin-bottom: 6px;
+      line-height: 1.4;
+    }
+
+    .field .writing-tip {
+      font-size: 12px;
+      color: var(--accent);
+      background: var(--accent-light);
+      padding: 8px 12px;
+      border-radius: var(--radius-sm);
+      margin-bottom: 8px;
+      line-height: 1.4;
+    }
+
+    .field .writing-tip::before {
+      content: '✎ ';
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="url"],
+    input[type="number"],
+    textarea,
+    select {
+      width: 100%;
+      padding: 10px 14px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      font-size: 15px;
+      font-family: inherit;
+      color: var(--text);
+      background: var(--card);
+      transition: border-color var(--transition), box-shadow var(--transition);
+      outline: none;
+    }
+
+    input:focus, textarea:focus, select:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(0,113,227,0.15);
+    }
+
+    input::placeholder, textarea::placeholder {
+      color: var(--text-tertiary);
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 80px;
+    }
+
+    /* Color input */
+    .color-field {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .color-field input[type="color"] {
+      width: 40px;
+      height: 40px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 2px;
+      cursor: pointer;
+      background: none;
+    }
+
+    .color-field input[type="text"] {
+      width: 120px;
+      font-family: 'SF Mono', SFMono-Regular, Menlo, monospace;
+      font-size: 14px;
+    }
+
+    /* Group */
+    .field-group {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    @media (max-width: 600px) {
+      .field-group { grid-template-columns: 1fr; }
+    }
+
+    .field-row {
+      display: flex;
+      gap: 12px;
+      align-items: flex-end;
+    }
+
+    .field-row .field { flex: 1; }
+
+    /* Divider */
+    .divider {
+      height: 1px;
+      background: var(--border-light);
+      margin: 24px 0;
+    }
+
+    .sub-heading {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 16px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--border-light);
+    }
+
+    /* Array fields */
+    .array-field .array-items {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+
+    .array-item {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .array-item input { flex: 1; }
+
+    .array-item .remove-btn {
+      width: 32px;
+      height: 32px;
+      border: none;
+      background: none;
+      color: var(--text-tertiary);
+      cursor: pointer;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      transition: all var(--transition);
+      flex-shrink: 0;
+    }
+
+    .array-item .remove-btn:hover { background: #fee; color: #e53e3e; }
+
+    .add-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 6px 12px;
+      border: 1px dashed var(--border);
+      border-radius: var(--radius-sm);
+      background: none;
+      color: var(--text-secondary);
+      cursor: pointer;
+      font-size: 13px;
+      transition: all var(--transition);
+    }
+
+    .add-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* Object items (support covers, milestones, locations) */
+    .object-list .object-item {
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-sm);
+      padding: 16px;
+      margin-bottom: 12px;
+      position: relative;
+    }
+
+    .object-item .remove-obj {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      width: 28px;
+      height: 28px;
+      border: none;
+      background: none;
+      color: var(--text-tertiary);
+      cursor: pointer;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+    }
+
+    .object-item .remove-obj:hover { background: #fee; color: #e53e3e; }
+
+    /* Toggle */
+    .toggle-field {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .toggle {
+      position: relative;
+      width: 44px;
+      height: 26px;
+      flex-shrink: 0;
+    }
+
+    .toggle input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .toggle-slider {
+      position: absolute;
+      inset: 0;
+      background: var(--border);
+      border-radius: 13px;
+      cursor: pointer;
+      transition: background var(--transition);
+    }
+
+    .toggle-slider::before {
+      content: '';
+      position: absolute;
+      width: 22px;
+      height: 22px;
+      left: 2px;
+      top: 2px;
+      background: #fff;
+      border-radius: 50%;
+      transition: transform var(--transition);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+    }
+
+    .toggle input:checked + .toggle-slider { background: var(--accent); }
+    .toggle input:checked + .toggle-slider::before { transform: translateX(18px); }
+
+    /* JSON Preview */
+    .json-modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+      background: rgba(0,0,0,0.4);
+      backdrop-filter: blur(8px);
+      padding: 40px 24px;
+      overflow-y: auto;
+    }
+
+    .json-modal.open { display: flex; justify-content: center; align-items: flex-start; }
+
+    .json-panel {
+      background: var(--card);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-lg);
+      width: 100%;
+      max-width: 720px;
+      max-height: 85vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .json-panel-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border-light);
+    }
+
+    .json-panel-header h3 { font-size: 15px; font-weight: 600; }
+
+    .json-panel-body {
+      padding: 16px 20px;
+      overflow-y: auto;
+      flex: 1;
+    }
+
+    .json-panel-body pre {
+      font-family: 'SF Mono', SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 12px;
+      line-height: 1.6;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      color: var(--text);
+    }
+
+    /* Toast */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: var(--text);
+      color: #fff;
+      padding: 12px 24px;
+      border-radius: 980px;
+      font-size: 14px;
+      font-weight: 500;
+      box-shadow: var(--shadow-lg);
+      transition: transform 0.3s ease;
+      z-index: 2000;
+    }
+
+    .toast.show { transform: translateX(-50%) translateY(0); }
+
+    /* Checkbox group */
+    .checkbox-group {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .checkbox-group label {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    .checkbox-group input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      accent-color: var(--accent);
+    }
+
+    /* Tag badge */
+    .required-badge {
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--accent);
+      background: var(--accent-light);
+      padding: 2px 6px;
+      border-radius: 4px;
+      margin-left: 6px;
+      vertical-align: middle;
+    }
+
+    /* Tabs */
+    .tab-bar {
+      display: flex;
+      gap: 0;
+      border-bottom: 1px solid var(--border-light);
+      margin-bottom: 20px;
+    }
+
+    .tab-bar button {
+      padding: 10px 20px;
+      border: none;
+      background: none;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      transition: all var(--transition);
+    }
+
+    .tab-bar button.active {
+      color: var(--accent);
+      border-bottom-color: var(--accent);
+    }
+
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+  </style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-inner">
+    <h1>Manifest Builder</h1>
+    <div class="header-actions">
+      <button class="btn btn-ghost" onclick="loadManifest()">Import JSON</button>
+      <button class="btn btn-secondary" onclick="previewJSON()">Preview JSON</button>
+      <button class="btn btn-primary" onclick="downloadJSON()">Download</button>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="intro">
+    <h2>Create your manifest</h2>
+    <p>Tell your impact story. This manifest powers your Project Impact Hub — the page where supporters see your mission, progress, and results.</p>
+  </div>
+
+  <div class="progress-bar" id="progressBar"></div>
+
+  <div class="layout">
+    <div class="sidebar">
+      <nav id="sidebarNav"></nav>
+    </div>
+
+    <main id="formArea"></main>
+  </div>
+</div>
+
+<!-- JSON Modal -->
+<div class="json-modal" id="jsonModal" onclick="if(event.target===this)closeJSON()">
+  <div class="json-panel">
+    <div class="json-panel-header">
+      <h3>Manifest JSON</h3>
+      <div style="display:flex;gap:8px">
+        <button class="btn btn-secondary" onclick="copyJSON()">Copy</button>
+        <button class="btn btn-ghost" onclick="closeJSON()">Close</button>
+      </div>
+    </div>
+    <div class="json-panel-body">
+      <pre id="jsonPreview"></pre>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+<input type="file" id="fileInput" accept=".json" style="display:none" onchange="handleFileLoad(event)">
+
+<script>
+// ──────────────────────────────────────────────────────
+// SECTION DEFINITIONS
+// ──────────────────────────────────────────────────────
+const sections = [
+  {
+    id: 'basics',
+    title: 'Basics',
+    subtitle: 'Your project identity',
+    fields: [
+      { key: 'id', label: 'ID', type: 'text', placeholder: 'coral-gardeners', hint: 'URL-friendly identifier (lowercase, dashes). Used in URLs.', required: true },
+      { key: 'name', label: 'Project name', type: 'text', placeholder: 'Coral Gardeners', hint: 'Your official project or organisation name.', required: true },
+      { key: 'partnerId', label: 'Partner ID', type: 'text', placeholder: '80ae2308-6acf-49bc-97e1-3b66f5afe322', hint: 'UUID assigned to your partner account.', required: true },
+    ]
+  },
+  {
+    id: 'branding',
+    title: 'Branding',
+    subtitle: 'Colours that define your look',
+    fields: [
+      { key: 'branding.primaryColor', label: 'Primary colour', type: 'color', default: '#000000', hint: 'Main brand colour — used for headings and key UI elements.' },
+      { key: 'branding.supportingColor', label: 'Supporting colour', type: 'color', default: '#E3EEF2', hint: 'Secondary accent for backgrounds and highlights.' },
+      { key: 'branding.supportingLightColor', label: 'Supporting light', type: 'color', default: '#F1F7F9', hint: 'A lighter variant for subtle backgrounds.' },
+      { key: 'branding.supportingLightSectionColor', label: 'Section background', type: 'color', default: '#F1F7F9', hint: 'Background tint for alternating content sections.' },
+      { key: 'branding.conversionColor', label: 'Conversion colour', type: 'color', default: '#59D3FF', hint: 'Used for call-to-action buttons.' },
+      { key: 'branding.conversionColorLight', label: 'Conversion light', type: 'color', default: '#9FE5FE', hint: 'Lighter variant for hover states.' },
+    ]
+  },
+  {
+    id: 'config',
+    title: 'Configuration',
+    subtitle: 'Language, features, and API settings',
+    fields: [
+      { key: 'config.i18n.locales', label: 'Supported languages', type: 'checkboxes', options: ['en', 'nl', 'de'], hint: 'Select which languages your Impact Hub supports.' },
+      { key: 'config.i18n.defaultLocale', label: 'Default language', type: 'select', options: ['en', 'nl', 'de'] },
+      { key: 'config.features.authentication', label: 'Require authentication', type: 'toggle', default: true, hint: 'When on, visitors must log in to access their personal impact page.' },
+      { key: 'config.api.baseUrl', label: 'API base URL', type: 'text', placeholder: '/api/mock', hint: 'The API endpoint for your Impact Hub.' },
+      { key: 'config.mainSiteUrl', label: 'Main site URL', type: 'url', placeholder: 'https://sumthing.org', hint: 'Link for the "Back to main site" navigation.' },
+    ]
+  },
+  {
+    id: 'thresholds',
+    title: 'Supporter thresholds',
+    subtitle: 'When supporters become "top supporters"',
+    fields: [
+      { key: 'topSupporterThreshold.individual', label: 'Individual threshold', type: 'number', placeholder: '500', hint: 'Minimum contribution amount (in your currency) for an individual to be shown as a top supporter.' },
+      { key: 'topSupporterThreshold.organization', label: 'Organisation threshold', type: 'number', placeholder: '5000', hint: 'Minimum contribution for an organisation.' },
+    ]
+  },
+  {
+    id: 'contact',
+    title: 'Contact & Social',
+    subtitle: 'How people can reach you',
+    fields: [
+      { key: 'contact.email', label: 'Email', type: 'email', placeholder: 'hello@yourproject.org' },
+      { key: 'contact.phone', label: 'Phone', type: 'text', placeholder: '+31 6 12345678' },
+      { key: 'contact.website', label: 'Website', type: 'url', placeholder: 'https://yourproject.org' },
+      { key: 'contact.address', label: 'Address', type: 'text', placeholder: 'Amsterdam, Netherlands' },
+      { key: 'contact.social.instagram', label: 'Instagram handle', type: 'text', placeholder: 'yourproject' },
+      { key: 'contact.social.linkedin', label: 'LinkedIn', type: 'text', placeholder: 'your-project' },
+      { key: 'contact.social.twitter', label: 'Twitter / X', type: 'text', placeholder: 'yourproject' },
+      { key: 'contact.social.facebook', label: 'Facebook', type: 'text', placeholder: 'yourproject' },
+    ]
+  },
+  {
+    id: 'logos',
+    title: 'Logos',
+    subtitle: 'Your brand assets',
+    fields: [
+      { key: 'content.logos.primary.light', label: 'Primary logo (light bg)', type: 'text', placeholder: '/logo.svg', hint: 'URL of your logo for light backgrounds.', required: true },
+      { key: 'content.logos.primary.dark', label: 'Primary logo (dark bg)', type: 'text', placeholder: '/logo-white.svg', hint: 'URL of your logo for dark backgrounds.', required: true },
+      { key: 'content.logos.icon', label: 'Favicon / Icon', type: 'text', placeholder: '/favicon.ico' },
+      { key: 'content.logos.dimensions.mobile.height', label: 'Mobile logo height (px)', type: 'number', placeholder: '42' },
+      { key: 'content.logos.dimensions.mobile.maxWidth', label: 'Mobile logo max width (px)', type: 'number', placeholder: '168' },
+      { key: 'content.logos.dimensions.desktop.height', label: 'Desktop logo height (px)', type: 'number', placeholder: '80' },
+      { key: 'content.logos.dimensions.desktop.maxWidth', label: 'Desktop logo max width (px)', type: 'number', placeholder: '280' },
+    ]
+  },
+  {
+    id: 'landing',
+    title: 'Landing page',
+    subtitle: 'The first thing visitors see — make it count',
+    writingTip: 'Your landing page is your first impression. Use strong, active language that makes visitors feel the urgency and beauty of your mission. Paint a picture of the world you are building.',
+    fields: [
+      { key: 'content.landing.hero.backgroundImage', label: 'Hero image URL', type: 'text', placeholder: '/hero.jpg', hint: 'A powerful, high-res image that captures your mission.', required: true },
+      { key: 'content.landing.hero.title', label: 'Hero title', type: 'text', placeholder: 'Restoring reefs, protecting oceans', writingTip: 'Keep it short (4-8 words). Use a verb to convey action. Focus on the positive outcome, not just the problem.', required: true },
+      { key: 'content.landing.hero.subtitle', label: 'Hero subtitle', type: 'text', placeholder: 'Join our mission to regenerate coral ecosystems', writingTip: 'Expand on the title. Invite the reader to participate. e.g. "Join our mission to…"' },
+      { key: 'content.landing.join.heading', label: 'Join heading', type: 'text', placeholder: 'Join {count} supporters restoring coral reefs', hint: 'Use {count} to show the live supporter count.', writingTip: 'Social proof is powerful. Show that others are already supporting you.' },
+      { key: 'content.landing.join.benefits', label: 'Join benefits', type: 'array', placeholder: 'e.g. Track reef recovery', writingTip: 'List 3 concrete things supporters get. Start each with a verb.' },
+      { key: 'content.landing.join.ctaPrefix', label: 'CTA prefix', type: 'text', placeholder: 'Start restoring reefs, from', hint: 'Text before the price on the call-to-action button.' },
+      { key: 'content.landing.projects.heading', label: 'Projects heading', type: 'text', placeholder: 'Our {count} reef restoration projects', hint: 'Use {count} for the number of projects.' },
+      { key: 'content.landing.projects.description', label: 'Projects description', type: 'textarea', placeholder: 'Protecting marine biodiversity with community-led restoration' },
+      { key: 'content.landing.supportCovers.heading', label: 'Support covers heading', type: 'text', placeholder: 'Your support covers' },
+      { key: 'content.landing.supportCovers.description', label: 'Support covers description', type: 'text', placeholder: 'Coral nurseries • Reef monitoring • Community training' },
+      { key: 'content.landing.supporters.heading', label: 'Supporters heading', type: 'text', placeholder: '{count}+ individual supporters', hint: 'Use {count} for the number of supporters.' },
+      { key: 'content.landing.supporters.description', label: 'Supporters description', type: 'text', placeholder: 'Help us regenerate coral reefs and protect marine life' },
+      { key: 'content.landing.updates.heading', label: 'Updates heading', type: 'text', placeholder: 'Reef Updates' },
+      { key: 'content.landing.updates.description', label: 'Updates description', type: 'text', placeholder: 'Follow our latest restoration progress' },
+      { key: 'content.landing.bottom.markdown', label: 'Bottom section (Markdown)', type: 'textarea', placeholder: '## Help us regenerate coral reefs\n\nEvery restored coral helps rebuild marine ecosystems.', writingTip: 'This is your closing statement. Reinforce the impact. End with an emotional call to action.' },
+    ]
+  },
+  {
+    id: 'personal',
+    title: 'Personal impact page',
+    subtitle: 'What each supporter sees on their personal page',
+    fields: [
+      { key: 'content.personal.hero.backgroundImage', label: 'Hero image URL', type: 'text', placeholder: '/hero.jpg' },
+      { key: 'content.personal.proofOfImpact.backgroundImage', label: 'Proof of impact image URL', type: 'text', placeholder: '/workers.png' },
+      { key: 'content.personal.bottom.image', label: 'Bottom section image URL', type: 'text', placeholder: '/partner-image.png' },
+      { key: 'content.personal.bottom.ctaText', label: 'Bottom CTA text', type: 'text', placeholder: 'Expand Your Impact', writingTip: 'Encourage supporters to do more. Keep it action-oriented — 2-4 words.' },
+    ]
+  },
+  {
+    id: 'home-page',
+    title: 'Home page content',
+    subtitle: 'Detailed content for your Impact Hub home page',
+    writingTip: 'This is where you tell your full story. Be specific about your impact — use real numbers, real locations, real outcomes. Supporters want to know exactly what their contribution achieves.',
+    fields: [
+      { key: 'content.pages.home.hero.backgroundImage', label: 'Hero image', type: 'text', placeholder: '/hero.jpg' },
+      { key: 'content.pages.home.hero.title', label: 'Hero title', type: 'text', placeholder: 'Rebuilding coral reefs for future generations', writingTip: 'Make it aspirational. This is the headline visitors see first.' },
+      { key: 'content.pages.home.socialProof.titleTemplate', label: 'Social proof title', type: 'text', placeholder: 'Join {count}+ supporters to restore ecosystems, protect wildlife and combat climate change.', hint: 'Use {count} for the supporter count.' },
+      { key: 'content.pages.home.socialProof.steps', label: 'How it works — steps', type: 'array', placeholder: 'e.g. Select your preferred project', writingTip: 'Describe the supporter journey in 3 simple steps. Start each with a verb.' },
+      { key: 'content.pages.home.socialProof.ctaMainText', label: 'Main CTA text', type: 'text', placeholder: 'Start restoring nature' },
+      { key: 'content.pages.home.trustedByLabel', label: '"Trusted by" label', type: 'text', placeholder: 'Trusted by:' },
+      { key: 'content.pages.home.projects.heading', label: 'Projects heading', type: 'text', placeholder: 'Our reef restoration projects across the globe' },
+      { key: 'content.pages.home.projects.description', label: 'Projects description', type: 'textarea', placeholder: 'We cultivate and transplant coral to rebuild reefs and protect biodiversity.' },
+      { key: 'content.pages.home.projects.emptyState', label: 'Projects empty state', type: 'text', placeholder: 'No projects available' },
+    ]
+  },
+  {
+    id: 'home-support',
+    title: 'Home — support & community',
+    subtitle: 'Support covers, supporters, and wildlife sections',
+    fields: [
+      { key: 'content.pages.home.supportCovers.heading', label: 'Support covers heading', type: 'text', placeholder: 'What your support covers' },
+      { key: 'content.pages.home.supportCovers.description', label: 'Support covers description', type: 'textarea', placeholder: 'Restoring reefs takes patience and care. Your support covers every step of the process.' },
+      { key: 'content.pages.home.supportCovers.items', label: 'Support cover items', type: 'objectArray', objectFields: [
+        { key: 'title', label: 'Title', type: 'text', placeholder: 'Step 1: Coral nurseries' },
+        { key: 'description', label: 'Description', type: 'text', placeholder: 'Grow healthy coral fragments in protected nurseries' },
+        { key: 'image', label: 'Image URL', type: 'text', placeholder: '/stories/story-3.jpg' },
+      ]},
+      { key: 'content.pages.home.supporters.headingTemplate', label: 'Supporters heading', type: 'text', placeholder: '{count}+ individual supporters' },
+      { key: 'content.pages.home.supporters.description', label: 'Supporters description', type: 'textarea', placeholder: "Every day people join the community of {partnerName}. Together we've restored 1200m² of reef:", hint: 'Use {partnerName} for your project name, {count} for supporter count.' },
+      { key: 'content.pages.home.supporters.topTitle', label: 'Top supporters title', type: 'text', placeholder: 'Top supporters' },
+      { key: 'content.pages.home.supporters.recentTitle', label: 'Recent supporters title', type: 'text', placeholder: 'Recent supporters' },
+      { key: 'content.pages.home.supporters.topEmptyState', label: 'Top empty state', type: 'text', placeholder: 'No supporters yet' },
+      { key: 'content.pages.home.supporters.recentEmptyState', label: 'Recent empty state', type: 'text', placeholder: 'No recent supporters' },
+      { key: 'content.pages.home.supporters.topSubtitle', label: 'Top subtitle', type: 'text', placeholder: 'Top supporter' },
+      { key: 'content.pages.home.supporters.time.justNow', label: 'Time — just now', type: 'text', placeholder: 'Just now' },
+      { key: 'content.pages.home.supporters.time.hoursAgo', label: 'Time — hours ago', type: 'text', placeholder: '{count} hrs ago' },
+      { key: 'content.pages.home.supporters.time.daysAgo', label: 'Time — days ago', type: 'text', placeholder: '{count} days ago' },
+      { key: 'content.pages.home.wildlife.heading', label: 'Wildlife heading', type: 'text', placeholder: 'Wildlife returning to our reefs' },
+      { key: 'content.pages.home.wildlife.description', label: 'Wildlife description', type: 'textarea', placeholder: 'See the biodiversity returning to restored reefs, documented by our field team.' },
+      { key: 'content.pages.home.wildlife.emptyState', label: 'Wildlife empty state', type: 'text', placeholder: 'No stories available' },
+    ]
+  },
+  {
+    id: 'home-impact',
+    title: 'Home — impact section',
+    subtitle: 'Showcase your results and milestones',
+    writingTip: 'This is where you prove your impact. Be concrete — use numbers, locations, and real achievements. Supporters want to see that their money is making a real difference.',
+    fields: [
+      { key: 'content.pages.home.impactSection.heading', label: 'Impact heading', type: 'textarea', placeholder: 'Coral reefs are disappearing rapidly, but together we can bring them back.', writingTip: 'State the problem, then offer hope. Keep it to one sentence.' },
+      { key: 'content.pages.home.impactSection.image.src', label: 'Impact image URL', type: 'text', placeholder: '/hero.jpg' },
+      { key: 'content.pages.home.impactSection.image.alt', label: 'Impact image alt text', type: 'text', placeholder: 'Coral restoration' },
+      { key: 'content.pages.home.impactSection.description', label: 'Impact description', type: 'textarea', placeholder: "By restoring coral reefs you're rebuilding ecosystems that:" },
+      { key: 'content.pages.home.impactSection.benefits', label: 'Impact benefits', type: 'array', placeholder: 'e.g. Support marine biodiversity and fish habitats', writingTip: 'List 3-4 concrete benefits. Be specific to your project.' },
+      { key: 'content.pages.home.impactSection.milestonesHeading', label: 'Milestones heading', type: 'text', placeholder: 'Our biggest milestones' },
+      { key: 'content.pages.home.impactSection.milestonesDescription', label: 'Milestones description', type: 'text', placeholder: 'Here is what our teams have achieved across our reef sites.' },
+      { key: 'content.pages.home.impactSection.milestones', label: 'Milestones', type: 'array', placeholder: 'e.g. Grown thousands of coral fragments', writingTip: 'List 3-5 real achievements. Use past tense to show proven impact.' },
+      { key: 'content.pages.home.impactSection.additionalHeading', label: 'Additional heading', type: 'text', placeholder: 'Healthy reefs sustain oceans and communities' },
+      { key: 'content.pages.home.impactSection.additionalDescription', label: 'Additional description', type: 'textarea', placeholder: 'Coral reefs are critical for ocean biodiversity and coastal protection. Your support helps us restore and protect them for future generations.' },
+    ]
+  },
+  {
+    id: 'user-page',
+    title: 'User page',
+    subtitle: 'The personal dashboard for each supporter',
+    fields: [
+      { key: 'content.pages.user.hero.backgroundImage', label: 'Hero image', type: 'text', placeholder: '/hero.jpg' },
+      { key: 'content.pages.user.hero.subtitle', label: 'Hero subtitle', type: 'text', placeholder: 'Impact overview' },
+      { key: 'content.pages.user.hero.titleTemplate', label: 'Hero title template', type: 'text', placeholder: "{name}'s Impact", hint: 'Use {name} for the supporter\'s name.' },
+      { key: 'content.pages.user.socialProof.titleTemplate', label: 'Social proof title', type: 'text', placeholder: 'Join {count}+ supporters to restore ecosystems.' },
+      { key: 'content.pages.user.socialProof.steps', label: 'How-it-works steps', type: 'array', placeholder: 'e.g. Choose environmental projects' },
+      { key: 'content.pages.user.socialProof.ctaMainText', label: 'CTA text', type: 'text', placeholder: 'Start restoring nature' },
+      { key: 'content.pages.user.tabs.fieldUpdates', label: 'Tab label — Field updates', type: 'text', placeholder: 'Field Updates' },
+      { key: 'content.pages.user.tabs.proofOfImpact', label: 'Tab label — Proof of impact', type: 'text', placeholder: 'Proof of Impact' },
+      { key: 'content.pages.user.fieldUpdates.headingTemplate', label: 'Field updates heading', type: 'text', placeholder: 'Updates in the field made possible by {name}', hint: 'Use {name} for the supporter\'s name.' },
+      { key: 'content.pages.user.fieldUpdates.description', label: 'Field updates description', type: 'textarea', placeholder: 'Here is what our teams are seeing across reef restoration sites.' },
+      { key: 'content.pages.user.fieldUpdates.emptyState', label: 'Empty state', type: 'text', placeholder: 'No stories available' },
+      { key: 'content.pages.user.trustedByTitle', label: '"Trusted by" title', type: 'text', placeholder: 'Supported by:' },
+    ]
+  },
+  {
+    id: 'user-impact',
+    title: 'User — impact & proof',
+    subtitle: 'Impact details, before/after, and proof of impact',
+    writingTip: 'The before/after section is incredibly powerful. Choose images that clearly show the transformation your project creates. The proof of impact card shows concrete numbers — make sure they tell a compelling story.',
+    fields: [
+      { key: 'content.pages.user.impactSection.beforeAfter.before.image', label: 'Before image URL', type: 'text', placeholder: '/stories/story-4.jpg' },
+      { key: 'content.pages.user.impactSection.beforeAfter.before.label', label: 'Before label', type: 'text', placeholder: 'Before' },
+      { key: 'content.pages.user.impactSection.beforeAfter.after.image', label: 'After image URL', type: 'text', placeholder: '/stories/story-5.jpg' },
+      { key: 'content.pages.user.impactSection.beforeAfter.after.label', label: 'After label', type: 'text', placeholder: 'After' },
+      { key: 'content.pages.user.impactSection.heading', label: 'Impact heading', type: 'text', placeholder: 'Help us restore coral reefs for future generations' },
+      { key: 'content.pages.user.impactSection.supporterTitleTemplate', label: 'Supporter count title', type: 'text', placeholder: 'Join {count}+ supporters' },
+      { key: 'content.pages.user.impactSection.steps', label: 'Impact steps', type: 'array', placeholder: 'e.g. Choose how much reef to restore' },
+      { key: 'content.pages.user.impactSection.ctaPrimaryText', label: 'Primary CTA', type: 'text', placeholder: 'Start restoring reefs' },
+      { key: 'content.pages.user.impactSection.ctaSecondaryText', label: 'Secondary CTA', type: 'text', placeholder: 'More about what we do' },
+      { key: 'content.pages.user.proofOfImpact.backgroundImage', label: 'Proof of impact background', type: 'text', placeholder: '/workers.png' },
+      { key: 'content.pages.user.proofOfImpact.card.updatedAt', label: 'Last updated', type: 'text', placeholder: '1 month ago' },
+      { key: 'content.pages.user.proofOfImpact.card.totalImpact', label: 'Total impact value', type: 'text', placeholder: '120m²', writingTip: 'Show the total measurable impact — e.g. "120m²", "5,000 trees", "40 hectares".' },
+      { key: 'content.pages.user.proofOfImpact.card.impactType', label: 'Impact type label', type: 'text', placeholder: 'reef area restored' },
+      { key: 'content.pages.user.proofOfImpact.card.realizedPercentage', label: 'Realized %', type: 'number', placeholder: '55' },
+      { key: 'content.pages.user.proofOfImpact.card.pendingPercentage', label: 'Pending %', type: 'number', placeholder: '45' },
+      { key: 'content.pages.user.proofOfImpact.card.pendingDescription', label: 'Pending description', type: 'textarea', placeholder: 'Restoration is ongoing. The next coral planting will take place in March 2025...' },
+      { key: 'content.pages.user.proofOfImpact.card.realizedLocations', label: 'Realized locations', type: 'objectArray', objectFields: [
+        { key: 'name', label: 'Location name', type: 'text', placeholder: 'Moorea Lagoon' },
+        { key: 'country', label: 'Country code', type: 'text', placeholder: 'PF' },
+        { key: 'realized', label: 'Realized', type: 'number', placeholder: '25' },
+        { key: 'total', label: 'Total', type: 'number', placeholder: '100' },
+        { key: 'imageUrl', label: 'Image URL', type: 'text', placeholder: '/stories/story-1.jpg' },
+      ]},
+      { key: 'content.pages.user.proofOfImpact.track.title', label: 'Track title', type: 'text', placeholder: 'We track all our impact' },
+      { key: 'content.pages.user.proofOfImpact.track.description', label: 'Track description', type: 'textarea', placeholder: 'Follow reef restoration progress and see your results over time.' },
+      { key: 'content.pages.user.proofOfImpact.track.ctaText', label: 'Track CTA text', type: 'text', placeholder: 'Total impact of {partnerName}', hint: 'Use {partnerName} for your project name.' },
+    ]
+  },
+  {
+    id: 'footer',
+    title: 'Footer & info',
+    subtitle: 'Contact support link and about page',
+    fields: [
+      { key: 'content.footer.contactSupportLink', label: 'Contact support link', type: 'text', placeholder: 'mailto:hello@yourproject.org', hint: 'Usually a mailto: link or URL to your support page.' },
+      { key: 'content.info.markdown', label: 'Info page content (Markdown)', type: 'textarea', placeholder: '# About Your Project\n\nTell your full story here...', writingTip: 'This is your "About" page. Use Markdown headings (# and ##). Cover: who you are, what you do, why it matters, and what impact you have achieved so far.', rows: 8 },
+    ]
+  },
+  {
+    id: 'metadata',
+    title: 'Metadata',
+    subtitle: 'Version tracking',
+    fields: [
+      { key: 'metadata.version', label: 'Version', type: 'text', placeholder: '1.0.0', required: true },
+    ]
+  },
+];
+
+// ──────────────────────────────────────────────────────
+// STATE
+// ──────────────────────────────────────────────────────
+const formData = {};
+
+function setVal(path, value) {
+  const keys = path.split('.');
+  let obj = formData;
+  for (let i = 0; i < keys.length - 1; i++) {
+    if (!(keys[i] in obj)) obj[keys[i]] = {};
+    obj = obj[keys[i]];
+  }
+  obj[keys[keys.length - 1]] = value;
+}
+
+function getVal(path) {
+  const keys = path.split('.');
+  let obj = formData;
+  for (const k of keys) {
+    if (obj == null || typeof obj !== 'object') return undefined;
+    obj = obj[k];
+  }
+  return obj;
+}
+
+// ──────────────────────────────────────────────────────
+// RENDER
+// ──────────────────────────────────────────────────────
+function renderField(f) {
+  let html = '<div class="field">';
+  const requiredBadge = f.required ? '<span class="required-badge">Required</span>' : '';
+
+  if (f.type === 'toggle') {
+    html += `<div class="toggle-field">
+      <label class="toggle"><input type="checkbox" data-key="${f.key}" ${getVal(f.key) || f.default ? 'checked' : ''} onchange="handleToggle(this)"><span class="toggle-slider"></span></label>
+      <div><label>${f.label}${requiredBadge}</label>${f.hint ? `<div class="hint">${f.hint}</div>` : ''}</div>
+    </div>`;
+  } else if (f.type === 'color') {
+    const val = getVal(f.key) || f.default || '#000000';
+    html += `<label>${f.label}${requiredBadge}</label>`;
+    if (f.hint) html += `<div class="hint">${f.hint}</div>`;
+    html += `<div class="color-field">
+      <input type="color" value="${val}" data-key="${f.key}" onchange="handleColor(this)">
+      <input type="text" value="${val}" data-key="${f.key}" onchange="handleInput(this)" placeholder="#000000">
+    </div>`;
+  } else if (f.type === 'checkboxes') {
+    const current = getVal(f.key) || [];
+    html += `<label>${f.label}${requiredBadge}</label>`;
+    if (f.hint) html += `<div class="hint">${f.hint}</div>`;
+    html += '<div class="checkbox-group">';
+    for (const opt of f.options) {
+      html += `<label><input type="checkbox" value="${opt}" data-key="${f.key}" ${current.includes(opt) ? 'checked' : ''} onchange="handleCheckboxes(this)">${opt.toUpperCase()}</label>`;
+    }
+    html += '</div>';
+  } else if (f.type === 'select') {
+    const val = getVal(f.key) || '';
+    html += `<label>${f.label}${requiredBadge}</label>`;
+    html += `<select data-key="${f.key}" onchange="handleInput(this)">`;
+    for (const opt of f.options) {
+      html += `<option value="${opt}" ${val === opt ? 'selected' : ''}>${opt.toUpperCase()}</option>`;
+    }
+    html += '</select>';
+  } else if (f.type === 'array') {
+    const items = getVal(f.key) || [''];
+    html += `<label>${f.label}${requiredBadge}</label>`;
+    if (f.hint) html += `<div class="hint">${f.hint}</div>`;
+    if (f.writingTip) html += `<div class="writing-tip">${f.writingTip}</div>`;
+    html += `<div class="array-field" data-key="${f.key}"><div class="array-items">`;
+    items.forEach((item, i) => {
+      html += `<div class="array-item"><input type="text" value="${escapeHtml(item)}" placeholder="${f.placeholder || ''}" data-key="${f.key}" data-index="${i}" onchange="handleArrayItem(this)"><button class="remove-btn" onclick="removeArrayItem('${f.key}', ${i})">×</button></div>`;
+    });
+    html += `</div><button class="add-btn" onclick="addArrayItem('${f.key}')">+ Add item</button></div>`;
+  } else if (f.type === 'objectArray') {
+    const items = getVal(f.key) || [];
+    html += `<label>${f.label}${requiredBadge}</label>`;
+    if (f.hint) html += `<div class="hint">${f.hint}</div>`;
+    html += `<div class="object-list" data-key="${f.key}">`;
+    items.forEach((item, i) => {
+      html += `<div class="object-item"><button class="remove-obj" onclick="removeObjectItem('${f.key}', ${i})">×</button>`;
+      for (const of of f.objectFields) {
+        const v = item[of.key] || '';
+        const inputType = of.type === 'number' ? 'number' : 'text';
+        html += `<div class="field"><label>${of.label}</label><input type="${inputType}" value="${escapeHtml(String(v))}" placeholder="${of.placeholder || ''}" data-key="${f.key}" data-index="${i}" data-subkey="${of.key}" onchange="handleObjectArrayItem(this)"></div>`;
+      }
+      html += '</div>';
+    });
+    html += `<button class="add-btn" onclick="addObjectItem('${f.key}', ${JSON.stringify(f.objectFields).replace(/"/g, '&quot;')})">+ Add item</button></div>`;
+  } else {
+    const val = getVal(f.key) || '';
+    html += `<label>${f.label}${requiredBadge}</label>`;
+    if (f.hint) html += `<div class="hint">${f.hint}</div>`;
+    if (f.writingTip) html += `<div class="writing-tip">${f.writingTip}</div>`;
+    if (f.type === 'textarea') {
+      html += `<textarea data-key="${f.key}" placeholder="${f.placeholder || ''}" rows="${f.rows || 3}" onchange="handleInput(this)">${escapeHtml(val)}</textarea>`;
+    } else {
+      html += `<input type="${f.type}" value="${escapeHtml(val)}" data-key="${f.key}" placeholder="${f.placeholder || ''}" onchange="handleInput(this)">`;
+    }
+  }
+  html += '</div>';
+  return html;
+}
+
+function renderSections() {
+  const form = document.getElementById('formArea');
+  const nav = document.getElementById('sidebarNav');
+  const progress = document.getElementById('progressBar');
+  let formHtml = '';
+  let navHtml = '';
+  let progressHtml = '';
+
+  sections.forEach((s, i) => {
+    navHtml += `<a href="#section-${s.id}" data-section="${s.id}">${s.title}</a>`;
+    progressHtml += `<div class="progress-step" data-section="${s.id}"></div>`;
+
+    formHtml += `<div class="section" id="section-${s.id}" data-section="${s.id}">`;
+    formHtml += `<div class="section-header" onclick="toggleSection(this)">
+      <div><h3>${s.title}</h3><div class="subtitle">${s.subtitle}</div></div>
+      <svg class="section-chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+    </div>`;
+    formHtml += '<div class="section-body">';
+    if (s.writingTip) formHtml += `<div class="writing-tip" style="margin-bottom:20px">${s.writingTip}</div>`;
+    for (const f of s.fields) {
+      formHtml += renderField(f);
+    }
+    formHtml += '</div></div>';
+  });
+
+  form.innerHTML = formHtml;
+  nav.innerHTML = navHtml;
+  progress.innerHTML = progressHtml;
+  updateProgress();
+}
+
+// ──────────────────────────────────────────────────────
+// HANDLERS
+// ──────────────────────────────────────────────────────
+function handleInput(el) {
+  const key = el.dataset.key;
+  let val = el.value;
+  if (el.type === 'number' && val !== '') val = Number(val);
+  setVal(key, val);
+  // Sync color pickers
+  if (key.startsWith('branding.')) {
+    const container = el.closest('.color-field');
+    if (container) {
+      const colorInput = container.querySelector('input[type="color"]');
+      const textInput = container.querySelector('input[type="text"]');
+      if (el.type === 'text' && colorInput && /^#[0-9a-fA-F]{6}$/.test(val)) {
+        colorInput.value = val;
+      }
+    }
+  }
+  updateProgress();
+}
+
+function handleColor(el) {
+  const key = el.dataset.key;
+  setVal(key, el.value);
+  const textInput = el.closest('.color-field').querySelector('input[type="text"]');
+  if (textInput) textInput.value = el.value;
+  updateProgress();
+}
+
+function handleToggle(el) {
+  setVal(el.dataset.key, el.checked);
+  updateProgress();
+}
+
+function handleCheckboxes(el) {
+  const key = el.dataset.key;
+  const checkboxes = document.querySelectorAll(`input[type="checkbox"][data-key="${key}"]`);
+  const values = [];
+  checkboxes.forEach(cb => { if (cb.checked) values.push(cb.value); });
+  setVal(key, values);
+  updateProgress();
+}
+
+function handleArrayItem(el) {
+  const key = el.dataset.key;
+  const index = parseInt(el.dataset.index);
+  let arr = getVal(key) || [];
+  arr[index] = el.value;
+  setVal(key, arr);
+  updateProgress();
+}
+
+function addArrayItem(key) {
+  let arr = getVal(key) || [];
+  arr.push('');
+  setVal(key, arr);
+  renderSections();
+  loadFormValues();
+}
+
+function removeArrayItem(key, index) {
+  let arr = getVal(key) || [];
+  arr.splice(index, 1);
+  if (arr.length === 0) arr = [''];
+  setVal(key, arr);
+  renderSections();
+  loadFormValues();
+}
+
+function handleObjectArrayItem(el) {
+  const key = el.dataset.key;
+  const index = parseInt(el.dataset.index);
+  const subkey = el.dataset.subkey;
+  let arr = getVal(key) || [];
+  if (!arr[index]) arr[index] = {};
+  let val = el.value;
+  if (el.type === 'number' && val !== '') val = Number(val);
+  arr[index][subkey] = val;
+  setVal(key, arr);
+  updateProgress();
+}
+
+function addObjectItem(key, fields) {
+  let arr = getVal(key) || [];
+  const obj = {};
+  fields.forEach(f => { obj[f.key] = f.type === 'number' ? 0 : ''; });
+  arr.push(obj);
+  setVal(key, arr);
+  renderSections();
+  loadFormValues();
+}
+
+function removeObjectItem(key, index) {
+  let arr = getVal(key) || [];
+  arr.splice(index, 1);
+  setVal(key, arr);
+  renderSections();
+  loadFormValues();
+}
+
+// ──────────────────────────────────────────────────────
+// PROGRESS
+// ──────────────────────────────────────────────────────
+function updateProgress() {
+  sections.forEach(s => {
+    const el = document.querySelector(`.progress-step[data-section="${s.id}"]`);
+    if (!el) return;
+    const requiredFields = s.fields.filter(f => f.required);
+    if (requiredFields.length === 0) {
+      const anyFilled = s.fields.some(f => {
+        const v = getVal(f.key);
+        return v != null && v !== '' && !(Array.isArray(v) && v.length === 1 && v[0] === '');
+      });
+      el.className = 'progress-step' + (anyFilled ? ' done' : '');
+    } else {
+      const allRequired = requiredFields.every(f => {
+        const v = getVal(f.key);
+        return v != null && v !== '';
+      });
+      el.className = 'progress-step' + (allRequired ? ' done' : '');
+    }
+  });
+}
+
+// ──────────────────────────────────────────────────────
+// SECTION TOGGLE
+// ──────────────────────────────────────────────────────
+function toggleSection(header) {
+  header.parentElement.classList.toggle('collapsed');
+}
+
+// ──────────────────────────────────────────────────────
+// SIDEBAR ACTIVE
+// ──────────────────────────────────────────────────────
+function updateSidebar() {
+  const scrollY = window.scrollY + 100;
+  let active = sections[0].id;
+  sections.forEach(s => {
+    const el = document.getElementById('section-' + s.id);
+    if (el && el.offsetTop <= scrollY) active = s.id;
+  });
+  document.querySelectorAll('.sidebar a').forEach(a => {
+    a.classList.toggle('active', a.dataset.section === active);
+  });
+}
+window.addEventListener('scroll', updateSidebar);
+
+// ──────────────────────────────────────────────────────
+// LOAD VALUES INTO FORM
+// ──────────────────────────────────────────────────────
+function loadFormValues() {
+  document.querySelectorAll('input[data-key], textarea[data-key], select[data-key]').forEach(el => {
+    const key = el.dataset.key;
+    const val = getVal(key);
+    if (el.type === 'checkbox' && !el.dataset.index) {
+      // Checkbox groups & toggles
+      if (el.closest('.checkbox-group')) {
+        const arr = getVal(key) || [];
+        el.checked = arr.includes(el.value);
+      } else {
+        el.checked = !!val;
+      }
+    } else if (el.type === 'color') {
+      el.value = val || '#000000';
+    } else if (el.tagName === 'SELECT') {
+      el.value = val || el.options[0]?.value || '';
+    } else {
+      el.value = val != null ? val : '';
+    }
+  });
+}
+
+// ──────────────────────────────────────────────────────
+// BUILD MANIFEST JSON
+// ──────────────────────────────────────────────────────
+function buildManifest() {
+  const m = JSON.parse(JSON.stringify(formData));
+
+  // Set metadata timestamps
+  if (!m.metadata) m.metadata = {};
+  if (!m.metadata.createdAt) m.metadata.createdAt = Date.now();
+  m.metadata.lastUpdated = Date.now();
+
+  // Clean up empty strings in arrays
+  function cleanArrays(obj) {
+    for (const key in obj) {
+      if (Array.isArray(obj[key])) {
+        obj[key] = obj[key].filter(item => {
+          if (typeof item === 'string') return item.trim() !== '';
+          if (typeof item === 'object') return Object.values(item).some(v => v != null && v !== '' && v !== 0);
+          return true;
+        });
+      } else if (typeof obj[key] === 'object' && obj[key] !== null) {
+        cleanArrays(obj[key]);
+      }
+    }
+  }
+  cleanArrays(m);
+
+  // Remove empty optional objects
+  function removeEmpty(obj) {
+    for (const key in obj) {
+      if (typeof obj[key] === 'object' && obj[key] !== null && !Array.isArray(obj[key])) {
+        removeEmpty(obj[key]);
+        if (Object.keys(obj[key]).length === 0) delete obj[key];
+      } else if (obj[key] === '' || obj[key] === undefined) {
+        delete obj[key];
+      }
+    }
+  }
+  removeEmpty(m);
+
+  // Keep required empty arrays
+  if (!m.trustedUserNumbers) m.trustedUserNumbers = [];
+
+  return m;
+}
+
+// ──────────────────────────────────────────────────────
+// ACTIONS
+// ──────────────────────────────────────────────────────
+function previewJSON() {
+  const m = buildManifest();
+  document.getElementById('jsonPreview').textContent = JSON.stringify(m, null, 2);
+  document.getElementById('jsonModal').classList.add('open');
+}
+
+function closeJSON() {
+  document.getElementById('jsonModal').classList.remove('open');
+}
+
+function copyJSON() {
+  const m = buildManifest();
+  navigator.clipboard.writeText(JSON.stringify(m, null, 2)).then(() => showToast('Copied to clipboard'));
+}
+
+function downloadJSON() {
+  const m = buildManifest();
+  const id = m.id || 'manifest';
+  const blob = new Blob([JSON.stringify(m, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `${id}.json`;
+  a.click();
+  URL.revokeObjectURL(url);
+  showToast('Manifest downloaded');
+}
+
+function loadManifest() {
+  document.getElementById('fileInput').click();
+}
+
+function handleFileLoad(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(ev) {
+    try {
+      const data = JSON.parse(ev.target.result);
+      populateFromObject(data, '');
+      renderSections();
+      loadFormValues();
+      updateProgress();
+      showToast('Manifest loaded');
+    } catch(err) {
+      showToast('Invalid JSON file');
+    }
+  };
+  reader.readAsText(file);
+  e.target.value = '';
+}
+
+function populateFromObject(obj, prefix) {
+  for (const key in obj) {
+    const path = prefix ? prefix + '.' + key : key;
+    const val = obj[key];
+    if (Array.isArray(val)) {
+      setVal(path, val);
+    } else if (typeof val === 'object' && val !== null) {
+      populateFromObject(val, path);
+    } else {
+      setVal(path, val);
+    }
+  }
+}
+
+// ──────────────────────────────────────────────────────
+// TOAST
+// ──────────────────────────────────────────────────────
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+// ──────────────────────────────────────────────────────
+// UTILS
+// ──────────────────────────────────────────────────────
+function escapeHtml(s) {
+  if (typeof s !== 'string') return s;
+  return s.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
+
+// ──────────────────────────────────────────────────────
+// INIT
+// ──────────────────────────────────────────────────────
+// Set defaults
+setVal('config.i18n.locales', ['en']);
+setVal('config.i18n.defaultLocale', 'en');
+setVal('config.features.authentication', true);
+setVal('metadata.version', '1.0.0');
+setVal('trustedUserNumbers', []);
+
+renderSections();
+loadFormValues();
+updateSidebar();
+</script>
+</body>
+</html>
